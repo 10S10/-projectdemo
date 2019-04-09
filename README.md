@@ -5,6 +5,7 @@
 3) Create a database name "projectDB" in mysql with credentials
     user - root
     password - root123
+    
   Look you can also change credentials But then you will need to change that into code also to run the proejct
 4) In case of if you want other credentials of you Database you need to change password, username into two file the path are
      config->database.js
@@ -18,6 +19,25 @@
 You can see the server is running on localhost:3000
 7)  You can test APIs from the given postman collection link
    https://www.getpostman.com/collections/da09be4dcb950eb55951
+
+#APIS list
+1) Login  
+   POST localhost:3000/api/v1/auth/login 
+   pass jsondata here with username, password field  
+
+2) Logout
+   POST localhost:3000/api/v1/auth/logout
+   
+3) Projects List  (Note this will be only available after loggedin), you need to pass JWT token in header that you will get from the login API
+
+   POST localhost:3000/api/v1/auth/projects
+   you can pass request like provided in postman collection
+    {
+     "start":0,
+     "limit":15,
+     "sort":"category_name",
+     "order":"asc"
+    }
 
 <%= answers['app:desc'] %>
 
