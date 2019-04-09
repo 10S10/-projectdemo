@@ -1,9 +1,23 @@
-# <%= answers['app:name'] %>
+# Steps to run the code
 
-[![NPM version][npm-image]][npm-url]
-[![Build status][ci-image]][ci-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-[![Code Climate][codeclimate-image]][codeclimate-url]
+1) Clone the repository
+2) Make sure you have mysql installed on your local machine 
+3) Create a database name "projectDB" in mysql with credentials
+    user - root
+    password - root123
+  Look you can also change credentials But then you will need to change that into code also to run the proejct
+4) In case of if you want other credentials of you Database you need to change password, username into two file the path are
+     config->database.js
+     database.json
+   But yes project name must be projectDB
+5) please install all dependencies of node modules
+    npm i 
+6) to start the server run below command
+    npm start
+
+You can see the server is running on localhost:3000
+7)  You can test APIs from the given postman collection link
+   https://www.getpostman.com/collections/da09be4dcb950eb55951
 
 <%= answers['app:desc'] %>
 
