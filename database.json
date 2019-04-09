@@ -1,0 +1,9 @@
+{
+  "development":{
+    "driver": "mysql",
+    "user":"root",
+    "password":"jsbot123",
+    "host": "localhost",
+    "database": "projectDB"
+  }
+}

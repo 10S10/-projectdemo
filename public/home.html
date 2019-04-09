@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+  input[type=text],input[type=password]{
+    height: 31px;
+    border: 1px solid gray;
+    margin: 2px;
+    padding: 7px;
+    border-radius: 2px;
+  }
+
+  input[type=button]{
+    padding: 6px;
+    margin: 5px;
+    border-radius: 5px;
+    width: auto;
+  }
+</style>
+
+<script type="text/javascript">
+
+  let start = 0 , limit=2
+  let prevButton=document.getElementById("prev");
+  //prevButton.disabled = true;
+
+  function getPrevData(){
+    start = start-limit
+    getProjects({start,limit})
+  }
+
+  function getNextData(){
+    start = start+limit
+    getProjects({start,limit})
+  }
+
+  function getProjects({start,limit}) {
+
+    let requestData = { start, limit }
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        let data = JSON.parse(this.responseText)
+        if(start>0)
+         prevButton.disabled = false;
+        if(data.flag){
+          document.getElementById("message").innerHTML = data.message;
+
+          let htmlData = `
+            <table>
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Project Name</th>
+                <th>User Name</th>
+                <th>Category Name</th>
+              </tr>
+              </thead>
+              <tbody id="mainData">
+
+          `
+
+          data.data.map((p,index)=>{
+            htmlData = `${htmlData}<tr>
+                <td>${start+index+1}</td>
+                 <td>${p.project_title}</td>
+                 <td>${p.username}</td>
+                 <td>${p.category_name}</td>
+            </tr>`
+          })
+          htmlData = `${htmlData} </tbody></table>`
+          document.getElementById("myList").innerHTML = htmlData
+        }
+        else{
+
+          if(start>0)nextButton.disabled=true
+          document.getElementById("message").innerHTML = `<span style="color: red">${data.message}</span>`;
+        }
+      }
+    };
+    xhttp.open("POST", `/api/v1/auth/projects`, true);
+    xhttp.setRequestHeader("Content-Type", 'application/json');
+    xhttp.setRequestHeader("Accept", 'application/json');
+    xhttp.send(JSON.stringify(requestData));
+  }
+  getProjects({start,limit})
+</script>
+
+<body>
+
+<div><b>List of projects here</b></div>
+<div id="message"></div>
+<div id="myList"></div>
+
+<button type="button" onclick="getPrevData()" id="prev">Prev</button>
+<button type="button" onclick="getNextData()"  id="next">Next</button>
+
+</body>
+</html>

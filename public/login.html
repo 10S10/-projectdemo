@@ -1,0 +1,63 @@
+<html>
+<title>
+  Login to App
+</title>
+<head>
+  <style>
+    input[type=text],input[type=password]{
+      height: 31px;
+      border: 1px solid gray;
+      margin: 2px;
+      padding: 7px;
+      border-radius: 2px;
+    }
+
+    input[type=submit]{
+      padding: 6px;
+      margin: 5px;
+      border-radius: 5px;
+      width: auto;
+    }
+  </style>
+  <script type="text/javascript">
+
+    function login() {
+
+      let data = {}
+      data.username = document.getElementById('username').value
+      data.password = document.getElementById('password').value
+
+      let xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText)
+
+          if(data.flag){
+            document.getElementById("message").innerHTML = data.message;
+            window.location.href = '/home'
+          }
+          else{
+            document.getElementById("message").innerHTML = `<span style="color: red">${data.message}</span>`;
+          }
+        }
+      };
+      xhttp.open("POST", `/api/v1/auth/login`, true);
+      xhttp.setRequestHeader("Content-Type", 'application/json');
+      xhttp.setRequestHeader("Accept", 'application/json');
+      xhttp.send(JSON.stringify(data));
+    }
+  </script>
+</head>
+<body>
+<div id="message"></div>
+<form name="loginForm">
+  <b>Login Form</b>
+  <br/>
+  <br/>
+  <input autofocus type="text" name="name" id="username" placeholder="Enter username" required><br/>
+  <input type="password" name="pwd" id="password" placeholder="Enter password" required><br/>
+  <input type="button" name="submit" value="login" onclick="login()">
+</form>
+</body>
+</html>
