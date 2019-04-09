@@ -53,7 +53,7 @@ module.exports = class PassportPolicy extends Policy {
           code: 1000
         });
       else
-        res.status(401).json({flag: false, data: e, message: e.message, code: 1000});
+        res.status(401).json({flag: false, data: e, message: `Token you have provided is not valid, Might be you are logout Please login again`, code: 1000});
     }
   }
 }

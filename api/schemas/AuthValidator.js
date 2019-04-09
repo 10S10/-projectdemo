@@ -17,7 +17,7 @@ module.exports = class AuthValidator {
     return Joi.object().keys({
       start : Joi.number(),
       limit : Joi.number(),
-      sort : Joi.toString(),
+      sort : Joi.any().valid(['createdAt','project_title','username','category_name']),
       order:Joi.any().valid(['asc','desc']),
     })
   }
