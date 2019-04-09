@@ -32,7 +32,7 @@ module.exports = {
     projectLocal: {
       database: 'projectDB',
       username: 'root',
-      password: 'jsbot123',
+      password: 'root123',
       host: 'localhost',
       dialect: 'mysql',
       port: '3306'

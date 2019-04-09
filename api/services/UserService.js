@@ -5,8 +5,6 @@ const async = require('async')
 const _ = require('lodash')
 const moment = require('moment')
 
-
-
 /**
  * @module UserService
  * @description All User services
@@ -23,7 +21,7 @@ module.exports = class UserService extends Service {
 
     let { sequelize } = this.app.orm.User
 
-    let sql = `select * from user where md5(CONCAT('${password}',salt))=password and id=${userid}`
+    let sql = `select * from user where md5(CONCAT(md5('${password}'),salt))=password and id=${userid}`
     return sequelize
       .query(sql,
         {
@@ -54,7 +52,6 @@ module.exports = class UserService extends Service {
     })
   }
 
-
   /**
    * Check User Exists
    * @param criteria - Object {email:abc.com,id:1}
@@ -73,39 +70,44 @@ module.exports = class UserService extends Service {
       })
   }
 
+  /**
+   * get list of projects
+   * @param fields
+   * @returns {Promise.<TResult>|*}
+   */
   getProjectsList(fields){
-        let { sequelize } = this.app.orm.Projects
-        let offsetCond = ``, orderSql=``
+    let {sequelize} = this.app.orm.Projects
+    let offsetCond = ``, orderSql = ``
 
-        if(fields.sort && fields.order){
-          orderSql = ` ORDER BY '${fields.sort}' ${fields.order}`
-        }
-        else{
-            orderSql = ` ORDER BY 'createdAt' DESC`
-        }
+    if (fields.sort && fields.order) {
+      orderSql = ` ORDER BY '${fields.sort}' ${fields.order}`
+    }
+    else {
+      orderSql = ` ORDER BY 'createdAt' DESC`
+    }
 
-        if(fields.limit)
-        offsetCond=` ${offsetCond} LIMIT ${fields.limit}`
+    if (fields.limit)
+      offsetCond = ` ${offsetCond} LIMIT ${fields.limit}`
 
-        if(_.has(fields,'start'))
-        offsetCond=`${offsetCond} OFFSET ${fields.start}`
+    if (_.has(fields, 'start'))
+      offsetCond = `${offsetCond} OFFSET ${fields.start}`
 
-        let sql = `
+    let sql = `
           select p.*,u.username,c.category_name from projects p
           join categories c on c.id=p.cid
           join user u on u.id=p.userid
           ${orderSql} ${offsetCond}
         `
-        return sequelize
-          .query(sql,
-            {
-              bind: [],
-              type: sequelize.QueryTypes.SELECT
-            })
-          .then((result)=> {
-            if(_.isEmpty(result))
-              throw new Error('No projects found!')
-            return result
-          })
+    return sequelize
+      .query(sql,
+        {
+          bind: [],
+          type: sequelize.QueryTypes.SELECT
+        })
+      .then((result) => {
+        if (_.isEmpty(result))
+          throw new Error('No projects found!')
+        return result
+      })
   }
 }

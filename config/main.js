@@ -19,8 +19,9 @@ module.exports = {
     require('trailpack-repl'),
     require('trailpack-router'),
     require('trailpack-express'),
-    require('trailpack-sequelize')
-    require('trailpack-joi')
+    require('trailpack-sequelize'),
+    require('trailpack-bootstrap'),
+    require('trailpack-joi'),
   ],
 
   /**

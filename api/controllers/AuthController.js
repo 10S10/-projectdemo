@@ -2,13 +2,13 @@
 
 const Controller = require('trails/controller')
 const _ = require('lodash')
-const validator = require('node-validator')
 
 /**
  * @module AuthController
  * @description user authentication.
  */
 module.exports = class AuthController extends Controller {
+
   /**
    * Check Login And generate JWT token
    * @param req
@@ -20,18 +20,10 @@ module.exports = class AuthController extends Controller {
     let app = this.app;
     let model = req.body;
 
-    let {
-      UserService,
-      PassportService
-    } = this.app.services;
-    let {
-      jwt
-    } = app.config.passport.strategies
-    let {
-      Token
-    } = this.app.orm;
+    let { UserService, PassportService } = this.app.services;
+    let { jwt } = app.config.passport.strategies
 
-console.log(`model`,model)
+    let { Token } = this.app.orm;
 
     try {
       // Check user entry is available & validate password also
@@ -66,7 +58,8 @@ console.log(`model`,model)
           token
         }
       });
-    } catch (e) {
+    }
+    catch (e) {
       // console.log(`e`,e)
       res.json({
         flag: false,
@@ -84,19 +77,14 @@ console.log(`model`,model)
    */
   async logout(req, res) {
 
-    let {
-      authorization
-    } = req.headers;
-    let {
-      PassportService
-    } = this.app.services;
+    let { authorization } = req.headers;
+    let { PassportService } = this.app.services;
 
     let token = authorization ? authorization.substring(4) : null;
 
     try {
 
       if (token) {
-
         let removedToken = await PassportService.removeToken(token)
         if (!removedToken) {
           throw new Error(`Logout failed`)
@@ -108,7 +96,8 @@ console.log(`model`,model)
         message: `success`,
         code: 200
       })
-    } catch (e) {
+    }
+    catch (e) {
       res.json({
         flag: false,
         data: e,
@@ -118,13 +107,15 @@ console.log(`model`,model)
     }
   }
 
-
+  /**
+   * get projects list of users
+   * @param req
+   * @param res
+   * @returns {Promise.<void>}
+   */
   async getProjectsList(req, res) {
 
-    let {
-      UserService,
-      PassportService
-    } = this.app.services;
+    let { UserService } = this.app.services;
     let model = req.body;
 
     try {
@@ -134,7 +125,8 @@ console.log(`model`,model)
         flag: true,
         data: projects
       });
-    } catch (e) {    
+    }
+    catch (e) {
       res.json({
         flag: false,
         data: {},

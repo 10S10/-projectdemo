@@ -18,7 +18,8 @@ module.exports = {
     info: [ ]
   },
   AuthController: {
-    login:['JoiPolicy.validate']
+    login:['JoiPolicy.validate'],
+    getProjectsList:['PassportPolicy.jwt','JoiPolicy.validate'],
   }
 
 }
