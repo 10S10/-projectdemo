@@ -85,11 +85,12 @@ Authorization : JWT {{token}}
    POST localhost:3000/api/v1/auth/projects
     
    you can pass request like provided in postman collection
-    ```javascript
-    {
+   
+   ```javascript
+   {
      "start":0,
      "limit":15,
      "sort":"category_name",
      "order":"asc"
-    }
-    ```
+   }
+   ```
